@@ -121,8 +121,7 @@ class _HomePageState extends State<HomePage> {
     final response = await supabase
         .from('donors')
         .select()
-        .eq('is_available', true)
-        .order('created_at', ascending: false);
+        .order('created_at', ascending: false); // ✅ REMOVED availability filter
 
     List filtered = List.from(response);
 
@@ -158,6 +157,7 @@ class _HomePageState extends State<HomePage> {
     setState(() => isLoading = false);
   }
 }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

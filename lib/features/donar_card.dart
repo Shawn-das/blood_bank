@@ -9,13 +9,15 @@ class DonorCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lastDonated = donor['last_donated'];
+    final lastDonated = donor['last_donation_date'];
     String formattedDate = "Not Available";
 
     if (lastDonated != null) {
       formattedDate = DateFormat('dd MMM yyyy')
-          .format(DateTime.parse(lastDonated));
+          .format(DateTime.parse(lastDonated.toString()));
     }
+
+    final bool isAvailable = donor['is_available'] == true;
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -61,7 +63,7 @@ class DonorCard extends StatelessWidget {
           const SizedBox(height: 6),
 
           Text(
-            "${donor['district']} • ${donor['phone'] ?? ''}",
+            "${donor['district'] ?? ''} • ${donor['phone'] ?? ''}",
             style: const TextStyle(color: Colors.grey),
           ),
 
@@ -77,12 +79,19 @@ class DonorCard extends StatelessWidget {
 
           /// Availability
           Row(
-            children: const [
-              Icon(Icons.circle, color: Colors.green, size: 10),
-              SizedBox(width: 6),
+            children: [
+              Icon(
+                Icons.circle,
+                color: isAvailable ? Colors.green : Colors.red,
+                size: 10,
+              ),
+              const SizedBox(width: 6),
               Text(
-                "Available",
-                style: TextStyle(color: Colors.green),
+                isAvailable ? "Available" : "Not Available",
+                style: TextStyle(
+                  color: isAvailable ? Colors.green : Colors.red,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ],
           ),
