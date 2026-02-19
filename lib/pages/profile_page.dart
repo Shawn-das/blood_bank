@@ -319,45 +319,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         const SizedBox(height: 20),
 
                         // Availability Toggle
-                        Container(
-                          padding:
-                              const EdgeInsets.all(15),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius:
-                                BorderRadius.circular(15),
-                            boxShadow: [
-                              BoxShadow(
-                                  color:
-                                      Colors.grey.shade300,
-                                  blurRadius: 5)
-                            ],
-                          ),
-                          child: Row(
-                            mainAxisAlignment:
-                                MainAxisAlignment
-                                    .spaceBetween,
-                            children: [
-                              const Text(
-                                "Available for Donation",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight:
-                                      FontWeight.bold,
-                                ),
-                              ),
-                              Switch(
-                                activeColor:
-                                    const Color(0xFFE53935),
-                                value: isAvailable,
-                                onChanged:
-                                    toggleAvailability,
-                              ),
-                            ],
-                          ),
-                        ),
+                        
 
-                        const SizedBox(height: 30),
+                        // const SizedBox(height: 30),
 
                         ElevatedButton(
                           style:

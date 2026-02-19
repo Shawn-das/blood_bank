@@ -18,6 +18,7 @@ class DonorCard extends StatelessWidget {
     }
 
     final bool isAvailable = donor['is_available'] == true;
+    final String address = donor['address'] ?? "Address not provided";
 
     return Container(
       padding: const EdgeInsets.all(16),
@@ -62,9 +63,20 @@ class DonorCard extends StatelessWidget {
 
           const SizedBox(height: 6),
 
-          Text(
-            "${donor['district'] ?? ''} • ${donor['phone'] ?? ''}",
-            style: const TextStyle(color: Colors.grey),
+          /// District + Phone + Address
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "${donor['district'] ?? ''} • ${donor['phone'] ?? ''}",
+                style: const TextStyle(color: Colors.grey),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                address,
+                style: const TextStyle(color: Colors.grey),
+              ),
+            ],
           ),
 
           const SizedBox(height: 6),
@@ -107,8 +119,7 @@ class DonorCard extends StatelessWidget {
               ),
             ),
             onPressed: () async {
-              final Uri phoneUri =
-                  Uri.parse("tel:${donor['phone']}");
+              final Uri phoneUri = Uri.parse("tel:${donor['phone']}");
 
               if (await canLaunchUrl(phoneUri)) {
                 await launchUrl(phoneUri);
