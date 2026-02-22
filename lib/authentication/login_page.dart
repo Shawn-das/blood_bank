@@ -13,12 +13,20 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final authService = AuthService();
 
-  // Text controllers
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  bool _isPasswordVisible = false;
-  bool _isLoading = false; // Loading indicator
 
+  bool _isPasswordVisible = false;
+  bool _isLoading = false;
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  /// LOGIN FUNCTION
   void login() async {
     final email = _emailController.text.trim();
     final password = _passwordController.text;
@@ -30,35 +38,72 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
 
-    setState(() {
-      _isLoading = true;
-    });
+    setState(() => _isLoading = true);
 
     try {
-      // Login successful
+      /// Make sure AuthService has a method like `signIn` or `login`
+      await authService.signInWithEmailPassword(email, password);
+
       if (!mounted) return;
+
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(
-          builder: (_) => HomePage(),
+        MaterialPageRoute(builder: (_) => const HomePage()),
+      );
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Login failed: $e")),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  /// FORGOT PASSWORD FUNCTION
+  void forgotPassword() async {
+    final email = _emailController.text.trim();
+
+    if (email.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Enter your email first")),
+      );
+      return;
+    }
+
+    setState(() => _isLoading = true);
+
+    try {
+      
+      await authService.sendPasswordResetEmail(email);
+
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Password reset email sent. Check your inbox."),
         ),
       );
-        } catch (e) {
+    } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Error: $e")),
         );
       }
     } finally {
-      setState(() {
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true, // prevents keyboard overflow
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -86,7 +131,6 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  /// TITLE
                   const Text(
                     'Welcome Back',
                     style: TextStyle(
@@ -94,26 +138,35 @@ class _LoginScreenState extends State<LoginScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-
                   const SizedBox(height: 20),
 
-                  /// EMAIL FIELD
+                  /// EMAIL
                   TextField(
                     controller: _emailController,
+                    keyboardType: TextInputType.emailAddress,
                     decoration: _inputDecoration('Email'),
                   ),
-
                   const SizedBox(height: 20),
 
-                  /// PASSWORD FIELD
+                  /// PASSWORD
                   TextField(
                     controller: _passwordController,
                     obscureText: !_isPasswordVisible,
                     decoration: _inputDecoration('Password', isPassword: true),
                   ),
 
-                  
-                  const SizedBox(height: 20),
+                  /// FORGOT PASSWORD BUTTON
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                      onPressed: _isLoading ? null : forgotPassword,
+                      child: const Text(
+                        "Forgot Password?",
+                        style: TextStyle(color: Colors.redAccent),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
 
                   /// LOGIN BUTTON
                   ElevatedButton(
@@ -126,18 +179,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     onPressed: _isLoading ? null : login,
                     child: _isLoading
-                        ? const CircularProgressIndicator(
-                            color: Colors.white,
-                          )
-                        : const Text(
-                            "Login",
-                            style: TextStyle(fontSize: 18),
-                          ),
+                        ? const CircularProgressIndicator(color: Colors.white)
+                        : const Text("Login", style: TextStyle(fontSize: 18)),
                   ),
-
                   const SizedBox(height: 20),
 
-                  /// SIGN UP NAVIGATION
+                  /// SIGN UP
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -147,7 +194,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const RegisterScreen(),
+                              builder: (_) => const RegisterScreen(),
                             ),
                           );
                         },
@@ -173,8 +220,13 @@ class _LoginScreenState extends State<LoginScreen> {
   InputDecoration _inputDecoration(String label, {bool isPassword = false}) {
     return InputDecoration(
       labelText: label,
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+        borderSide: const BorderSide(color: Colors.grey),
+      ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10),
         borderSide: const BorderSide(color: Colors.redAccent),

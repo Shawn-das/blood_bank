@@ -20,8 +20,8 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
   String? errorMessage;
 
   // Only one admin
-  final String adminEmail = "shawn@gmail.com";
-  final String adminPassword = "password123"; // Replace with hashed password in production
+  final String adminEmail = "bbt@gmail.com";
+  final String adminPassword = "password123"; 
 
   Future<void> login() async {
     setState(() {

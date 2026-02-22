@@ -14,11 +14,11 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   final nameController = TextEditingController();
   final emailController = TextEditingController();
-  final passwordController = TextEditingController(); // ✅ Added password
+  final passwordController = TextEditingController();
   final phoneController = TextEditingController();
   final addressController = TextEditingController();
 
-  bool _isPasswordVisible = false; // ✅ Password visibility
+  bool _isPasswordVisible = false; 
   bool _isLoading = false;
 
   String selectedBloodGroup = "A Positive (A+)";

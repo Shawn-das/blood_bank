@@ -84,7 +84,7 @@ class _AdminAmbulancePageState extends State<AdminAmbulancePage> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  // TODO: Add Supabase insert logic here
+                
                   if (nameController.text.isEmpty ||
                       phoneController.text.isEmpty ||
                       selectedDistrict == null) {

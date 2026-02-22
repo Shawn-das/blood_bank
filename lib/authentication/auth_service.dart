@@ -27,6 +27,22 @@ class AuthService {
     await _supabase.auth.signOut();
   }
 
+  // send reset email
+  Future<void> sendPasswordResetEmail(String email) async {
+    await _supabase.auth.resetPasswordForEmail(
+      email,
+      redirectTo:
+          'com.example.flutter_application_1://reset-password',
+    );
+  }
+
+  // UPDATE PASSWORD
+  Future<void> updatePassword(String newPassword) async {
+    await _supabase.auth.updateUser(
+      UserAttributes(password: newPassword),
+    );
+  }
+
   //get user email
   String? getCurrentUserEmail() {
     final session = _supabase.auth.currentSession;
