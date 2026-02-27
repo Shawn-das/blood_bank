@@ -117,7 +117,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ? const Center(child: CircularProgressIndicator())
           : Column(
               children: [
-                // 🔴 HEADER WITH BACK BUTTON
+                // HEADER WITH BACK BUTTON
                 Container(
                   padding: const EdgeInsets.only(
                       top: 60, bottom: 20, left: 15, right: 15),

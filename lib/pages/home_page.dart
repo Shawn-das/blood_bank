@@ -33,7 +33,7 @@ class _HomePageState extends State<HomePage> {
     "AB-",
   ];
 
-  // ✅ FIXED HERE (Added "All")
+ 
   final List<String> districts = [
     "All",
     "Bagerhat",
@@ -125,7 +125,7 @@ class _HomePageState extends State<HomePage> {
 
     List filtered = List.from(response);
 
-    // 🔎 Search filter
+    // Search filter
     if (searchText.isNotEmpty) {
       filtered = filtered.where((d) {
         return d['full_name']
@@ -135,14 +135,14 @@ class _HomePageState extends State<HomePage> {
       }).toList();
     }
 
-    // 🩸 Blood filter
+    // Blood filter
     if (selectedBlood != "All") {
       filtered = filtered
           .where((d) => d['blood_group'] == selectedBlood)
           .toList();
     }
 
-    // 📍 District filter
+    // District filter
     if (selectedDistrict != "All") {
       filtered = filtered
           .where((d) => d['district'] == selectedDistrict)

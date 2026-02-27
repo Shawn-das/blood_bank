@@ -69,7 +69,7 @@ class DashboardPage extends StatelessWidget {
         child: ListView(
           children: [
 
-            // 🩸 Be a Donor
+            // Be a Donor
             buildCard(
               title: "Be a Donor",
               icon: Icons.favorite,
@@ -78,7 +78,7 @@ class DashboardPage extends StatelessWidget {
               },
             ),
 
-            // 🚑 Ambulance
+            // Ambulance
             buildCard(
               title: "Ambulance",
               icon: Icons.local_hospital,
@@ -87,7 +87,7 @@ class DashboardPage extends StatelessWidget {
               },
             ),
 
-            // ℹ️ About Us
+            //  About Us
             buildCard(
               title: "About Us",
               icon: Icons.info,

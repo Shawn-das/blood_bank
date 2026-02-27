@@ -94,7 +94,7 @@ class _AdminAmbulancePageState extends State<AdminAmbulancePage> {
                     return;
                   }
 
-                  // Example Supabase insert (uncomment when ready)
+                  // Supabase insert 
                   
                   supabase.from('ambulances').insert({
                     'name': nameController.text.trim(),
